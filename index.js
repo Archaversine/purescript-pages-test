@@ -54,6 +54,18 @@ var log = function(s) {
   };
 };
 
+// output/Effect.Timer/foreign.js
+function setTimeoutImpl(ms) {
+  return function(fn) {
+    return function() {
+      return setTimeout(fn, ms);
+    };
+  };
+}
+
+// output/Effect.Timer/index.js
+var setTimeout2 = setTimeoutImpl;
+
 // output/Web.DOM.Document/foreign.js
 var getEffProp = function(name14) {
   return function(doc) {
@@ -311,7 +323,7 @@ function document(window2) {
 }
 
 // output/Main/index.js
-var main = function __do() {
+var changeText = function __do() {
   var win = windowImpl();
   var doc = document(win)();
   var elem2 = getElementById("target-elem")(toNonElementParentNode(toDocument(doc)))();
@@ -323,8 +335,13 @@ var main = function __do() {
     return setTextContent("Modified from Purescript!")(toNode(elem2.value0))();
   }
   ;
-  throw new Error("Failed pattern match at Main (line 25, column 3 - line 27, column 68): " + [elem2.constructor.name]);
+  throw new Error("Failed pattern match at Main (line 26, column 3 - line 28, column 68): " + [elem2.constructor.name]);
+};
+var main = function __do2() {
+  setTimeout2(5e3)(changeText)();
+  return log("Changed text!")();
 };
 export {
+  changeText,
   main
 };

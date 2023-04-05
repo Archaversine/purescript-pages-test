@@ -5,6 +5,7 @@ import Prelude
 import Data.Maybe (Maybe(..))
 
 import Effect (Effect)
+import Effect.Timer (setTimeout)
 import Effect.Console (log)
 
 import Web.DOM.Document (toNonElementParentNode)
@@ -15,8 +16,8 @@ import Web.HTML (window)
 import Web.HTML.HTMLDocument (toDocument)
 import Web.HTML.Window (document)
 
-main :: Effect Unit
-main = do 
+changeText :: Effect Unit
+changeText = do 
   win <- window
   doc <- document win
 
@@ -25,3 +26,8 @@ main = do
   case elem of 
     Nothing -> log "Error: no target element"
     Just e -> setTextContent "Modified from Purescript!" (toNode e)
+
+main :: Effect Unit
+main = do 
+  _ <- setTimeout 5000 changeText
+  log "Changed text!"
